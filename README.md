@@ -14,8 +14,7 @@ You can install the most recent version of PathwayGuidedRF from GitHub as follow
 
 ``` r
 library(devtools)
-install_github("XXX/PathwayGuidedRF",
-               dependencies = TRUE)
+install_github("szymczak-lab/PathwayGuidedRF")
 ```
 
 Simulated data

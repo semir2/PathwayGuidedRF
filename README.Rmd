@@ -36,8 +36,7 @@ follows:
 
 ```{r, eval = FALSE}
 library(devtools)
-install_github("XXX/PathwayGuidedRF",
-               dependencies = TRUE)
+install_github("szymczak-lab/PathwayGuidedRF")
 ```
 
 ## Simulated data
