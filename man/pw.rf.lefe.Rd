@@ -5,8 +5,9 @@
 \title{Pathway-guided random forest based on Learner of Functional Enrichment}
 \usage{
 pw.rf.lefe(x = NULL, y = NULL, info.pw = NULL, type = "regression",
-  importance = "impurity_corrected", min.no.var = 5, not.assoc.pw = TRUE,
-  sample.factor = 6, sample.runs = 75, test = "wilcox.test", ...)
+  importance = "impurity_corrected", min.no.var = 5,
+  not.assoc.pw = TRUE, sample.factor = 6, sample.runs = 75,
+  test = "wilcox.test", ...)
 }
 \arguments{
 \item{x}{Matrix or data.frame of predictor variables with variables in

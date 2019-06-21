@@ -5,8 +5,8 @@
 \title{Pathway-guided random forest based on synthetic features}
 \usage{
 pw.rf.synthetic.features(x = NULL, y = NULL, info.pw = NULL,
-  type = "regression", importance = "impurity_corrected", min.no.var = 5,
-  not.assoc.pw = TRUE, ...)
+  type = "regression", importance = "impurity_corrected",
+  min.no.var = 5, not.assoc.pw = TRUE, ...)
 }
 \arguments{
 \item{x}{Matrix or data.frame of predictor variables with variables in
@@ -67,17 +67,7 @@ synthetic features is only evaluated regarding its prediction performance.
 We additionally implemented the Boruta method to select important synthetic
 features, i.e. pathways.
 }
-\references{
-\itemize{
-\item Pan, Q, et al. (2014) A system‐level pathway‐phenotype association
-  analysis using synthetic feature random forest. Genetic Epi 38: 209-219.
-  \url{https://dx.doi.org/10.1002/gepi.21794}.
-\item Kursa, MB, & Rudnicki, WR. (2010) Feature selection with the
-  Boruta package. J Stat Softw 36: 1-13.
-  \url{http://dx.doi.org/10.18637/jss.v036.i11}.
-  }
-
-#' @examples
+\examples{
 # define pathway parameters
 info.par = data.frame(pw = paste0("pw", 1:3),
                       no.genes = rep(20, 3),
@@ -97,4 +87,14 @@ res.sf = pw.rf.synthetic.features(x = sim.data.l$data.train[, -1],
                                   info.pw = sim.data.l$info.pw,
                                   type = "classification",
                                   not.assoc.pw = FALSE)
+}
+\references{
+\itemize{
+\item Pan, Q, et al. (2014) A system‐level pathway‐phenotype association
+  analysis using synthetic feature random forest. Genetic Epi 38: 209-219.
+  \url{https://dx.doi.org/10.1002/gepi.21794}.
+\item Kursa, MB, & Rudnicki, WR. (2010) Feature selection with the
+  Boruta package. J Stat Softw 36: 1-13.
+  \url{http://dx.doi.org/10.18637/jss.v036.i11}.
+  }
 }

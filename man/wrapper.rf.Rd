@@ -5,8 +5,8 @@
 \title{Wrapper function to call ranger}
 \usage{
 wrapper.rf(x = NULL, y = NULL, num.trees = 500, mtry.prop = NULL,
-  type = "regression", importance = "impurity_corrected", seed = NULL,
-  ...)
+  type = "regression", importance = "impurity_corrected",
+  seed = NULL, ...)
 }
 \arguments{
 \item{x}{Matrix or data.frame of predictor variables with variables in

@@ -36,6 +36,7 @@
 #' }
 #' \item \code{pw.sel} vector with ids of selected pathways
 #' \item \code{info.pw} actual used variables to pathways assignment
+#' \item \code{importance.genes} gene specific importances
 #' }
 #'
 #' @references
@@ -123,7 +124,8 @@ pw.rf.hunt <-
       list(
         results.pw = results.pw,
         pw.sel = pw.sel,
-        info.pw = info.pw
+        info.pw = info.pw,
+        importance.genes = imp
         )
       )
   }

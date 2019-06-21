@@ -4,7 +4,8 @@
 \alias{sim.data.study.1}
 \title{Simulate data sets for simulation study 1}
 \usage{
-sim.data.study.1(info.par, no.samples, no.cases, seed, dd1 = 0.5, gamma.range)
+sim.data.study.1(info.par, no.samples, no.cases, seed, dd1 = 0.5,
+  gamma.range)
 }
 \arguments{
 \item{info.par}{Information about pathways as data.frame with columns

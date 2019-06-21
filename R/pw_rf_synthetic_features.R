@@ -53,7 +53,7 @@
 #'   \url{http://dx.doi.org/10.18637/jss.v036.i11}.
 #'   }
 #'
-#' #' @examples
+#' @examples
 #' # define pathway parameters
 #' info.par = data.frame(pw = paste0("pw", 1:3),
 #'                       no.genes = rep(20, 3),

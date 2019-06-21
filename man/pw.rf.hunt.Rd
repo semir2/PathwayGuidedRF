@@ -5,8 +5,8 @@
 \title{Pathway-guided random forest based on pathway importance score}
 \usage{
 pw.rf.hunt(x = NULL, y = NULL, info.pw = NULL, type = "regression",
-  importance = "impurity_corrected", min.no.var = 5, not.assoc.pw = TRUE,
-  ...)
+  importance = "impurity_corrected", min.no.var = 5,
+  not.assoc.pw = TRUE, ...)
 }
 \arguments{
 \item{x}{Matrix or data.frame of predictor variables with variables in
@@ -51,6 +51,7 @@ List with the following components:
 }
 \item \code{pw.sel} vector with ids of selected pathways
 \item \code{info.pw} actual used variables to pathways assignment
+\item \code{importance.genes} gene specific importances
 }
 }
 \description{

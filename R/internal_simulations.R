@@ -2,22 +2,22 @@
 ## internal function for simulation study 2
 ## simulate omics data set (rows: genes, columns: samples)
 simulate.data.set = function(mvn,
-                             no.samples,
+                             no.cases,
+                             no.controls,
                              gene.names,
                              genes.causal,
                              effects.causal) {
 
-    x = Umpire::rand(mvn, no.samples)
+    x = Umpire::rand(mvn, no.cases + no.controls)
     rownames(x) = gene.names
 
     ## modify means in cases
-    no.cases = floor(no.samples / 2)
     x[genes.causal, 1:no.cases] = x[genes.causal, 1:no.cases] +
         effects.causal
 
     ## simulate outcome
     y = c(rep(1, no.cases),
-          rep(0, no.samples - no.cases))
+          rep(0, no.controls))
 
     data = data.frame(y = y, t(x))
     return(data)

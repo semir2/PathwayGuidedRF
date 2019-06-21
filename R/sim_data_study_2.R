@@ -21,7 +21,10 @@
 #' @param gene.names Vector with names of all genes that should be simulated
 #' (Note: needs to have the same dimension as cov.matrix).
 #' @param no.samples Total number of individuals to simulate. A balanced number
-#' of cases and controls will be simulated.
+#' of cases and controls will be simulated. Alternatively use no.controls and
+#' no.cases.
+#' @param no.controls Number of control individuals to simulate.
+#' @param no.cases Number of case individuals to simulate.
 #' @param effects Vector with effect sizes (mean differences) for differentially
 #' expressed genes.
 #' @param genes.pw Vector with names of genes in selected
@@ -91,11 +94,23 @@
 sim.data.study.2 = function(mvn = NULL,
                             cov.matrix = NULL,
                             gene.names,
-                            no.samples,
+                            no.samples = NULL,
+                            no.controls = NULL,
+                            no.cases = NULL,
                             effects,
                             genes.pw,
                             prop.de,
                             seed = NULL) {
+
+    if (!is.null(no.samples)) {
+        no.cases = floor(no.samples / 2)
+        no.controls = no.samples - no.cases
+    } else {
+        if (is.null(no.cases) | is.null(no.controls)) {
+            stop("either no.samples or no.cases and no.controls
+                             need to be specified!")
+        }
+    }
 
     ## if only covariance matrix is provided
     if (is.null(mvn)) {
@@ -110,7 +125,7 @@ sim.data.study.2 = function(mvn = NULL,
     genes.pw.avail = intersect(gene.names, genes.pw)
     if (length(genes.pw.avail) < length(genes.pw)) {
         warning("reduced genes in target pathway to genes available in
-                gene.names")
+                        gene.names")
     }
     if (length(genes.pw.avail) < 10) {
         stop("less than 10 genes found in target pathway")
@@ -127,18 +142,20 @@ sim.data.study.2 = function(mvn = NULL,
     ## randomly assign effect sizes
     effects.causal = sample(effects,
                             size = no.causal,
-                            replace = FALSE)
+                            replace = TRUE)
 
     ## training data
     data.train = simulate.data.set(mvn = mvn,
-                                   no.samples = no.samples,
+                                   no.cases = no.cases,
+                                   no.controls = no.controls,
                                    gene.names = gene.names,
                                    genes.causal = genes.causal,
                                    effects.causal = effects.causal)
 
     ## test data
     data.test = simulate.data.set(mvn = mvn,
-                                  no.samples = no.samples,
+                                  no.cases = no.cases,
+                                  no.controls = no.controls,
                                   gene.names = gene.names,
                                   genes.causal = genes.causal,
                                   effects.causal = effects.causal)

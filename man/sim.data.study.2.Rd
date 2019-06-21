@@ -4,8 +4,9 @@
 \alias{sim.data.study.2}
 \title{Simulate data sets for simulation study 2}
 \usage{
-sim.data.study.2(mvn = NULL, cov.matrix = NULL, gene.names, no.samples,
-  effects, genes.pw, prop.de, seed = NULL)
+sim.data.study.2(mvn = NULL, cov.matrix = NULL, gene.names,
+  no.samples = NULL, no.controls = NULL, no.cases = NULL, effects,
+  genes.pw, prop.de, seed = NULL)
 }
 \arguments{
 \item{mvn}{Object of class \code{\link[Umpire]{MVN}} for efficient simulation
@@ -20,7 +21,12 @@ cov.matrix need to be specified).}
 (Note: needs to have the same dimension as cov.matrix).}
 
 \item{no.samples}{Total number of individuals to simulate. A balanced number
-of cases and controls will be simulated.}
+of cases and controls will be simulated. Alternatively use no.controls and
+no.cases.}
+
+\item{no.controls}{Number of control individuals to simulate.}
+
+\item{no.cases}{Number of case individuals to simulate.}
 
 \item{effects}{Vector with effect sizes (mean differences) for differentially
 expressed genes.}

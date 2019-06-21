@@ -43,21 +43,14 @@ prepare.input <-
 
     # check for syntactically valid names
     nm <- colnames(x)
-    cor_nm <- make.names(nm, unique = T, allow_ = F)
-    idx_cor_nm <- which(!cor_nm %in% nm, useNames = F)
-    if (length(idx_cor_nm != 0)) {
-      df_nm <-
-        data.frame(
-          index = idx_cor_nm,
-          original = nm[idx_cor_nm],
-          corrected = cor_nm[idx_cor_nm]
-          )
+    cor_nm <- make.names(nm,
+                         unique = TRUE,
+                         allow_ = TRUE)
+    sum.diff = sum(nm != cor_nm)
+    if (sum.diff > 0) {
       warning(paste0("Replaced",
-        length(idx_cor_nm),
-        "variable names with syntactically valid names:",
-        print.and.capture(df_nm)))
-      colnames(x) <- cor_nm
-      row.names(info.pw) <- cor_nm
+        sum.diff,
+        "variable names with syntactically valid names"))
     }
 
     # NA check
@@ -135,14 +128,6 @@ prepare.input <-
     return(list(info.pw = info.pw, x = x))
   }
 
-#' convert x into a string
-#' @param obj object to print
-#' @param row.names print row names of the obj.  Default is false.
-#' @noRd
-print.and.capture <- function(obj, row.names = FALSE) {
-  paste(utils::capture.output(print(obj, row.names = row.names)),
-        collapse = "\n")
-}
 
 #' calculate pathway scores and p-value for pw.rf.hunt()
 #' @param imp variable importance for all variables
