@@ -25,6 +25,9 @@
 #' @param not.assoc.pw Combines all variables not associated to any pathway
 #' or pathways with less then <min.no.var> into pathway
 #' 'not_associated_genes_pw'. Default is TRUE.
+#' @param p.adjust.method Method for multiple testing adjusting (see
+#' \code{\link{p.adjust}}). Default is "BH" which is different from the
+#' adjustment method used prior to version 0.4.0 ("bonferroni").
 #' @param sample.factor Factor to determine the size of the set of
 #' additional variables. Default is 6 meaning that six times more additional
 #' variables than pathway variables are used.
@@ -43,7 +46,7 @@
 #' \item \code{id} pathway identifier
 #' \item \code{no.var} number of variables in pathway
 #' \item \code{pval} P value
-#' \item \code{pval.adj} Bonferroni adjusted P value
+#' \item \code{pval.adj} adjusted P value
 #' \item \code{selected} 0 or 1 denoting if pathway is selected
 #' }
 #' \item \code{pw.sel} vector with ids of selected pathways
@@ -87,6 +90,7 @@ pw.rf.lefe <-
            importance = "impurity_corrected",
            min.no.var = 5,
            not.assoc.pw = TRUE,
+           p.adjust.method = "BH",
            sample.factor = 6,
            sample.runs = 75,
            test = "wilcox.test",
@@ -167,7 +171,7 @@ pw.rf.lefe <-
         warning(paste0("empty gene set for category ", pw))
       }
     }
-    pval.adj <- p.adjust(pvalues, method = "bonferroni")
+    pval.adj <- p.adjust(pvalues, method = p.adjust.method)
 
     results.pw <-
       data.frame(

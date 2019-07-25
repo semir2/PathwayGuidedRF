@@ -213,32 +213,6 @@ calculate.var.weighting <- function(test, x, y, alternative) {
   return(wt)
 }
 
-#' calculate empirical p-value
-#' @param perm permuted data
-#' @param org original data
-#' @param no.p number of permutations
-#' @noRd
-calculate.empirical.pvalue <- function(perm, org, no.p) {
-  #check if perm has dimensions
-  if (is.null(dim(perm)))
-    stop(paste0(
-      "calculate empirical p-value must have perm data with dimension bigger 1. got '",
-      dim(perm),
-      "'"))
-
-  pval.emp <-
-    vapply(
-      seq_len(nrow(perm)),
-      function(x) {
-        temp <- perm[x, seq_len(no.p)]
-        no.NA <- sum(is.na(temp))
-        (sum(temp < org[x], na.rm = TRUE) + 1) / (no.p - no.NA + 1)
-        },
-      FUN.VALUE = numeric(1)
-      )
-  names(pval.emp) <- rownames(perm)
-  return(pval.emp)
-}
 
 #' Variable selection using Boruta function.
 #' Variable selection using the Boruta function in the R package

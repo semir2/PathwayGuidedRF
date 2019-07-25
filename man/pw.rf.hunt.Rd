@@ -6,7 +6,7 @@
 \usage{
 pw.rf.hunt(x = NULL, y = NULL, info.pw = NULL, type = "regression",
   importance = "impurity_corrected", min.no.var = 5,
-  not.assoc.pw = TRUE, ...)
+  not.assoc.pw = TRUE, p.adjust.method = "BH", ...)
 }
 \arguments{
 \item{x}{Matrix or data.frame of predictor variables with variables in
@@ -33,6 +33,10 @@ Default is 5.}
 or pathways with less then <min.no.var> into pathway
 'not_associated_genes_pw'. Default is TRUE.}
 
+\item{p.adjust.method}{Method for multiple testing adjusting (see
+\code{\link{p.adjust}}). Default is "BH" which is different from the
+adjustment method used prior to version 0.4.0 ("bonferroni").}
+
 \item{...}{Additional parameters used in the \code{\link{wrapper.rf}}
 function.}
 }
@@ -46,7 +50,7 @@ List with the following components:
 \item \code{x.score} the pathway enrichment score of the pathway
 \item \code{z.score} the standardized pathway enrichment score
 \item \code{pval} P value based on standard normal distribution
-\item \code{pval.adj} Bonferroni adjusted P value
+\item \code{pval.adj} adjusted P value
 \item \code{selected} 0 or 1 denoting if pathway is selected
 }
 \item \code{pw.sel} vector with ids of selected pathways

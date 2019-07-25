@@ -19,6 +19,9 @@
 #' @param not.assoc.pw Combines all variables not associated to any pathway
 #' or pathways with less then <min.no.var> into pathway
 #' 'not_associated_genes_pw'. Default is TRUE.
+#' @param p.adjust.method Method for multiple testing adjusting (see
+#' \code{\link{p.adjust}}). Default is "BH" which is different from the
+#' adjustment method used prior to version 0.4.0 ("bonferroni").
 #' @param ... Additional parameters used in the \code{\link{wrapper.rf}}
 #' function.
 #'
@@ -31,7 +34,7 @@
 #' \item \code{x.score} the pathway enrichment score of the pathway
 #' \item \code{z.score} the standardized pathway enrichment score
 #' \item \code{pval} P value based on standard normal distribution
-#' \item \code{pval.adj} Bonferroni adjusted P value
+#' \item \code{pval.adj} adjusted P value
 #' \item \code{selected} 0 or 1 denoting if pathway is selected
 #' }
 #' \item \code{pw.sel} vector with ids of selected pathways
@@ -74,6 +77,7 @@ pw.rf.hunt <-
            importance = "impurity_corrected",
            min.no.var = 5,
            not.assoc.pw = TRUE,
+           p.adjust.method = "BH",
            ...) {
     pr_inp <-
       prepare.input(
@@ -107,7 +111,7 @@ pw.rf.hunt <-
         )
 
     # final result
-    pval.adj <- p.adjust(res$pval, method = "bonferroni")
+    pval.adj <- p.adjust(res$pval, method = p.adjust.method)
     results.pw <-
       data.frame(
         id = colnames(info.pw),

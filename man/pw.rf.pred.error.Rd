@@ -6,7 +6,7 @@
 \usage{
 pw.rf.pred.error(x = NULL, y = NULL, info.pw = NULL,
   type = "regression", min.no.var = 5, not.assoc.pw = TRUE,
-  no.perm = 20, ...)
+  p.adjust.method = "BH", no.perm = 20, ...)
 }
 \arguments{
 \item{x}{Matrix or data.frame of predictor variables with variables in
@@ -30,6 +30,10 @@ Default is 5.}
 or pathways with less then <min.no.var> into pathway
 'not_associated_genes_pw'. Default is TRUE.}
 
+\item{p.adjust.method}{Method for multiple testing adjusting (see
+\code{\link{p.adjust}}). Default is "BH" which is different from the
+adjustment method used prior to version 0.4.0 ("bonferroni").}
+
 \item{no.perm}{Number of permutations used to determine the P value. Default
 is 20.}
 
@@ -48,7 +52,7 @@ List with the following components:
 \code{pred.error.perm.max} summary information about prediction errors after
 permuting the outcome
 \item \code{pval} permutation based P value
-\item \code{pval.adj} Bonferroni adjusted empirical P value
+\item \code{pval.adj} adjusted permutation based P value
 \item \code{selected} 0 or 1 denoting if pathway is selected
 }
 \item \code{pw.sel} vector with ids of selected pathways
@@ -97,10 +101,11 @@ res.pe = pw.rf.pred.error(x = sim.data.l$data.train[, -1],
 
 }
 \references{
-Hediger, S et al. (2019) On the use of random forest for two-sample testing.
+\itemize{
+\item Hediger, S et al. (2019) On the use of random forest for two-sample testing.
 arXiv. \url{https://arxiv.org/abs/1903.06287v2}
-
-Pang, H et al. (2006) Pathway analysis using random forests
+\item Pang, H et al. (2006) Pathway analysis using random forests
 classification and regression. Bioinformatics 22: 2028-2036.
 \url{https://doi.org/10.1093/bioinformatics/btl344}.
+}
 }

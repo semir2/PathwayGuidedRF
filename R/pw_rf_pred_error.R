@@ -24,6 +24,9 @@
 #' @param not.assoc.pw Combines all variables not associated to any pathway
 #' or pathways with less then <min.no.var> into pathway
 #' 'not_associated_genes_pw'. Default is TRUE.
+#' @param p.adjust.method Method for multiple testing adjusting (see
+#' \code{\link{p.adjust}}). Default is "BH" which is different from the
+#' adjustment method used prior to version 0.4.0 ("bonferroni").
 #' @param no.perm Number of permutations used to determine the P value. Default
 #' is 20.
 #' @param ... Additional parameters used in the ranger or the associated
@@ -40,7 +43,7 @@
 #' \code{pred.error.perm.max} summary information about prediction errors after
 #' permuting the outcome
 #' \item \code{pval} permutation based P value
-#' \item \code{pval.adj} Bonferroni adjusted empirical P value
+#' \item \code{pval.adj} adjusted permutation based P value
 #' \item \code{selected} 0 or 1 denoting if pathway is selected
 #' }
 #' \item \code{pw.sel} vector with ids of selected pathways
@@ -48,12 +51,13 @@
 #' }
 #'
 #' @references
-#' Hediger, S et al. (2019) On the use of random forest for two-sample testing.
+#' \itemize{
+#' \item Hediger, S et al. (2019) On the use of random forest for two-sample testing.
 #' arXiv. \url{https://arxiv.org/abs/1903.06287v2}
-#'
-#' Pang, H et al. (2006) Pathway analysis using random forests
+#' \item Pang, H et al. (2006) Pathway analysis using random forests
 #' classification and regression. Bioinformatics 22: 2028-2036.
 #' \url{https://doi.org/10.1093/bioinformatics/btl344}.
+#' }
 #'
 #' @examples
 #' # define pathway parameters
@@ -86,6 +90,7 @@ pw.rf.pred.error <- function(x = NULL,
                              type = "regression",
                              min.no.var = 5,
                              not.assoc.pw = TRUE,
+                             p.adjust.method = "BH",
                              no.perm = 20,
                              ...) {
 
@@ -138,7 +143,7 @@ pw.rf.pred.error <- function(x = NULL,
                  sd = sd(as.numeric(pred.error.perm)),
                  lower.tail = TRUE)
 
-    pval.adj <- p.adjust(pval, method = "bonferroni")
+    pval.adj <- p.adjust(pval, method = p.adjust.method)
     results.pw <- data.frame(id = colnames(info.pw),
                              no.var = apply(info.pw, 2, sum),
                              pred.error = pred.error.obs,

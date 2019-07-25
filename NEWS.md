@@ -4,6 +4,9 @@
 major changes:
 - use more efficient permutation test in pw.rf.pred.error
   (which replaces adaptive test which includes a bug)
+- added argument p.adjust.method to pw.rf.hunt, pw.rf.lefe and pw.rf.pred.error
+  to control type of multiple testing adjustment of P values. (Note that the 
+  default changed from the Bonferroni to the Benjamini-Hochberg procedure).
 
 # PathwayGuidedRF 0.3.1
 
