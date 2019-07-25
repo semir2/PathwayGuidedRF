@@ -6,7 +6,7 @@
 \usage{
 pw.rf.pred.error(x = NULL, y = NULL, info.pw = NULL,
   type = "regression", min.no.var = 5, not.assoc.pw = TRUE,
-  no.perm = 1000, adaptive = TRUE, ...)
+  no.perm = 20, ...)
 }
 \arguments{
 \item{x}{Matrix or data.frame of predictor variables with variables in
@@ -31,11 +31,7 @@ or pathways with less then <min.no.var> into pathway
 'not_associated_genes_pw'. Default is TRUE.}
 
 \item{no.perm}{Number of permutations used to determine the P value. Default
-is 1000.}
-
-\item{adaptive}{Logical; this parameter can be set to TRUE to reduce run
-time. When set to TRUE the number of permutations are reduced for pathways
-that have high P values (>= 0.2). Default is TRUE.}
+is 20.}
 
 \item{...}{Additional parameters used in the ranger or the associated
 wrapper function.}
@@ -51,8 +47,7 @@ List with the following components:
 \item \code{pred.error.perm.min}, \code{pred.error.perm.median},
 \code{pred.error.perm.max} summary information about prediction errors after
 permuting the outcome
-\item \code{no.perm.used} number of permutations calculated for each pathway
-\item \code{pval} empirical P value
+\item \code{pval} permutation based P value
 \item \code{pval.adj} Bonferroni adjusted empirical P value
 \item \code{selected} 0 or 1 denoting if pathway is selected
 }
@@ -62,17 +57,19 @@ permuting the outcome
 }
 \description{
 Trains a separate random forest (RF) for each pathway and
-selects pathways with prediction error significantly lower than expected by
-chance. An empirical P value is calculated by comparing the observed
-prediction error of the RF trained on the original data with the distribution
-of prediction errors of RFs trained on data sets with permuted outcome. For
+selects pathways with out-of-bag (OOB) prediction error significantly lower
+than expected by chance using a permutation approach proposed by Hedinger et
+al. (2019). OOB prediction errors are calculated for RFs trained on data sets
+with permuted outcome and the mean and standard deviation of all those
+prediction errors (across pathways and repetitions) are estimated. The
+P values are then derived using a normal distribution. For
 more details about random forests parameters see \code{\link{wrapper.rf}} and
 for more details about the method see Pang et al. (2006).
 }
 \details{
-The method specific parameters \code{no.perm} and \code{adaptive}
-can be adapted. Note that we introduced the latter parameter to reduce run
-time, which was not used in the original implementation (Pang et al. 2006).
+The method specific parameter \code{no.perm} can be adapted.
+However, it is recommended to use a sufficiently large number so that
+no.perm * number of pathways > 1000.
 }
 \examples{
 # define pathway parameters
@@ -89,16 +86,20 @@ sim.data.l = sim.data.study.1(info.par = info.par,
                               seed = 42,
                               gamma.range = c(0.5, 1.5))
 
-# Note: no.perm of 100 only used for illustration
+# Note: no.perm of 20 only used for illustration (should be larger for
+# analysis of a small number of pathways)
 res.pe = pw.rf.pred.error(x = sim.data.l$data.train[, -1],
                           y = sim.data.l$data.train[, 1],
                           info.pw = sim.data.l$info.pw,
                           type = "classification",
                           not.assoc.pw = FALSE,
-                          no.perm = 100)
+                          no.perm = 20)
 
 }
 \references{
+Hediger, S et al. (2019) On the use of random forest for two-sample testing.
+arXiv. \url{https://arxiv.org/abs/1903.06287v2}
+
 Pang, H et al. (2006) Pathway analysis using random forests
 classification and regression. Bioinformatics 22: 2028-2036.
 \url{https://doi.org/10.1093/bioinformatics/btl344}.

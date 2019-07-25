@@ -1,4 +1,10 @@
 
+# PathwayGuidedRF 0.4.0
+
+major changes:
+- use more efficient permutation test in pw.rf.pred.error
+  (which replaces adaptive test which includes a bug)
+
 # PathwayGuidedRF 0.3.1
 
 minor changes:

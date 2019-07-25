@@ -1,7 +1,7 @@
 Package: PathwayGuidedRF
 Type: Package
 Title: Pathway Analysis with Random Forests
-Version: 0.3.1
+Version: 0.4.0
 Author: Silke Szymczak [aut, cre], Sven Gundlach [aut], Stephan Seifert [ctb], Olaf Junge [ctb]
 Maintainer: Silke Szymczak <szymczak@medinfo.uni-kiel.de>
 Description: Implementations of several extensions of the standard random
