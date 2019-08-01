@@ -22,10 +22,10 @@ or gene sets using multiple pathway guided random forest (RF) approaches.
 Furthermore, it includes functions to simulate pathway based gene expression
 data under two different scenarios. 
 
-Please cite the following manuscript if you use the package:  
-S Seifert, S Gundlach, O Junge and S Szymczak (2019) Integrating biological 
-knowledge and omics data using pathway guided random forests: a benchmarking 
-study. Submitted to Genome Biology.
+<!-- Please cite the following manuscript if you use the package:   -->
+<!-- S Seifert, S Gundlach, O Junge and S Szymczak (2019) Integrating biological  -->
+<!-- knowledge and omics data using pathway guided random forests: a benchmarking  -->
+<!-- study. Submitted to Genome Biology. -->
 
 ## Installation
 
@@ -65,11 +65,13 @@ info.par = data.frame(pw = paste0("pw", 1:3),
                       stringsAsFactors = FALSE)
 ```
 
-We finally simulate 30 individuals, of which 15 should be cases. The parameter 
-gamma.range defines the the range of absolute effect sizes for the differential
-expression.
+We finally simulate 30 individuals, of which 15 should be cases. In order to be 
+able to reproduce the data and the results we set the random number generator to 
+the specified seed. The parameter gamma.range defines the the range of absolute
+effect sizes for the differential expression.
 
-```{r}
+```{r, message = FALSE}
+set.seed(12345)
 sim.data.l = sim.data.study.1(info.par = info.par,
                               no.samples = 30,
                               no.cases = 15,
@@ -97,6 +99,7 @@ contain some method specific information.
 
 ```{r}
 # synthetic feature approach
+set.seed(12345)
 res.sf = pw.rf.synthetic.features(x = sim.data.l$data.train[, -1],
                                   y = sim.data.l$data.train[, 1],
                                   info.pw = sim.data.l$info.pw,
@@ -110,6 +113,7 @@ res.sf$pw.sel
 res.sf$results.pw
 
 # hunting approach
+set.seed(12345)
 res.hunt = pw.rf.hunt(x = sim.data.l$data.train[, -1],
                       y = sim.data.l$data.train[, 1],
                       info.pw = sim.data.l$info.pw,
@@ -120,18 +124,22 @@ res.hunt$results.pw
 
 ```
 
-For reduced run time we use only a small number of permutations for the 
-prediction error method. However, the default value of 1000 should be used for
-a real analysis.
+For illustration we use the default of 20 permutations for the 
+prediction error method. However, since we analyse only three pathways the total 
+number of permutations is 60 which is too small for reliable results. In a real 
+analysis the total number of permutation should be larger than 1000 which is 
+often already achieved with 20 permutations per pathway since many more pathways
+are usually tested.
 
 ```{r}
 # prediction error approach
+set.seed(12345)
 res.pe = pw.rf.pred.error(x = sim.data.l$data.train[, -1],
-                                  y = sim.data.l$data.train[, 1],
-                                  info.pw = sim.data.l$info.pw,
-                                  type = "classification",
-                                  not.assoc.pw = FALSE,
-                                  no.perm = 100)
+                          y = sim.data.l$data.train[, 1],
+                          info.pw = sim.data.l$info.pw,
+                          type = "classification",
+                          not.assoc.pw = FALSE,
+                          no.perm = 20)
 res.pe$pw.sel
 res.pe$results.pw
 
@@ -143,6 +151,7 @@ could be calculated for this pathway.
 
 ```{r}
 # LeFE approach
+set.seed(12345)
 res.lefe = pw.rf.lefe(x = sim.data.l$data.train[, -1],
                       y = sim.data.l$data.train[, 1],
                       info.pw = sim.data.l$info.pw,
