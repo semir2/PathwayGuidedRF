@@ -384,3 +384,19 @@ pw.specific.rfs <-
         pred.pw = pred.pw)
       )
   }
+
+#' create inbag counts for balanced datasets
+#' @param y Vector with values of outcome variable.
+#' @noRd
+create.inbag.list = function(k = 1, y) {
+    class.numb = table(as.factor(y))
+    inbag.vec = rep(0,length(y))
+    class.pos = lapply(1:length(class.numb),function(u) which(y == names(class.numb)[u]))
+    class.pos.tree = lapply(1:length(class.pos), function(t) sample(class.pos[[t]],min(lengths(class.pos))))
+    inbag.tree = unlist(lapply(1:length(class.pos.tree),function(t) sample(class.pos.tree[[t]],min(lengths(class.pos)),replace = TRUE)))
+    inbag.vec[as.numeric(names(table(inbag.tree)))] = table(inbag.tree)
+    return(inbag.vec)
+}
+
+
+

@@ -4,9 +4,10 @@
 \alias{wrapper.rf}
 \title{Wrapper function to call ranger}
 \usage{
-wrapper.rf(x = NULL, y = NULL, num.trees = 500, mtry.prop = NULL,
-  type = "regression", importance = "impurity_corrected",
-  seed = NULL, ...)
+wrapper.rf(x = NULL, y = NULL, num.trees = 500, mtry.pow = NULL,
+  mtry.prop = NULL, type = "regression",
+  importance = "impurity_corrected", seed = NULL, balance = FALSE,
+  ...)
 }
 \arguments{
 \item{x}{Matrix or data.frame of predictor variables with variables in
@@ -17,10 +18,13 @@ to factor if classification mode is used).}
 
 \item{num.trees}{Number of trees. Default is 500.}
 
+\item{mtry.pow}{The power to calculate the number of variables that should be used at each split.
+Default value is 3/4, meaning the number of variables^(3/4), as recommended by
+Ishwaran et al. (2011) for minimal depth importance. (Note that this is a different
+default value than in the \code{\link[ranger]{ranger}} function and that either mtry.prop or mtry.pow can be applied)).}
+
 \item{mtry.prop}{Proportion of variables that should be used at each split.
-Default value is the number of variables^(3/4) as recommended by
-Ishwaran et al. (2011) for minimal depth importance. (Note: This is a different
-default value than in the \code{\link[ranger]{ranger}} function).}
+(Note that either mtry.prop or mtry.pow can be applied).}
 
 \item{type}{Type of random forest ('regression' or 'classification'). Default
 is 'regression'.}
@@ -30,6 +34,8 @@ is 'regression'.}
 
 \item{seed}{Random seed. Default is NULL, which generates the seed from R.
 Set to 0 to ignore the R seed.}
+
+\item{balance}{Parameter to decide if undersampling should be applied to obtain a balanced dataset.}
 
 \item{...}{Additional parameters used in the ranger function.}
 }
