@@ -1,3 +1,10 @@
+# PathwayGuidedRF 0.5.0
+major changes:
+- changed mtry parameter to mtry.prop and mtry.pow to either apply mtry as power 
+or proportion.
+- included a downsampling procedure which generates the inbag samples for each 
+tree by balanced resampling using the size of the minority class.
+
 
 # PathwayGuidedRF 0.4.0
 

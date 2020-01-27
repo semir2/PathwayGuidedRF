@@ -94,11 +94,17 @@ wrapper.rf <-
             mtry <- 1
         }
 
-        # run ranger
-        if (balance) {
-
+        # create inbag list in case of balanced procedure
+        if ((balance) && (type == "classification"))  {
             inbag.list = lapply(1:num.trees,create.inbag.list,y = y)
+        }
+        if ((balance) && (type != "classification")) {
+            stop("Balanced mode can only be applied in a classification setting")
+        } else {
+            inbag.list = NULL
+        }
 
+        # run ranger
             res <-
                 ranger::ranger(
                     data = data.frame(y, x),
@@ -115,23 +121,6 @@ wrapper.rf <-
                     ...
                 )
 
-        }
-        else {
-            res <-
-                ranger::ranger(
-                    data = data.frame(y, x),
-                    num.trees = num.trees,
-                    mtry = mtry,
-                    importance = importance,
-                    write.forest = TRUE,
-                    probability = FALSE,
-                    scale.permutation.importance = FALSE,
-                    keep.inbag = TRUE,
-                    dependent.variable.name = "y",
-                    seed = seed,
-                    ...
-                )
-        }
         if (anyNA(res$predictions)) {
             warning(paste0(
                 "missing data in predictions. Advice: increase number of trees.",
